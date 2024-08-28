@@ -1,3 +1,24 @@
-.cell_container{
-    border: 1px solid black;
+.cell_container {
+    display: flex;
+    border: 0.5px solid #e0e0e0;
+    padding: 2px;
+    text-align: left;
+    line-height: 20px;
+    white-space: nowrap;
+}
+
+.cell_container:focus {
+    outline: 2px solid #4285f4;
+    outline-offset: -2px;
+}
+
+.cell_container:hover {
+    background-color: #f7f7f7;
+    cursor: pointer;
+}
+
+.cell_container:first-child{
+    position: sticky;
+    left: 0;
+    background-color: #f9f9f9;
 }

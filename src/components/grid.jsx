@@ -1,6 +1,7 @@
 import Column from "../types/column";
 import Row from "../types/row";
 import RowNode from "./row";
+import "./grid.css";
 
 
 function Grid(){
@@ -16,7 +17,7 @@ function Grid(){
     .map((col,idx) => ( new Row(idx,columns)));
 
     return(
-        <div id="container">{rows.map(row => <RowNode key={row.id} row={row}/>)}</div>
+        <div id="container" className="root_container">{rows.map(row => <RowNode key={row.id} row={row}/>)}</div>
     )
 
 

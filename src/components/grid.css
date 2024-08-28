@@ -1,0 +1,9 @@
+.root_container{
+    width: auto;
+    max-height: 100%;
+    height: auto;
+    overflow: auto;
+    font-family: Google Sans, Roboto, sans-serif; 
+    font-size: 9px;
+    font-weight: 300;
+}

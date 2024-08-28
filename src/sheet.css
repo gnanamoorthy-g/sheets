@@ -5,16 +5,17 @@ section{
 header{
     height: 10vh;
     width: inherit;
-    background-color: antiquewhite;
+    background-color: #EDF2FA;
 }
 main{
-    min-height: 85vh;
-    width: inherit;
-    overflow: auto;
+    height: 85vh;
+    max-height: 85vh;
+    width: auto;
     background-color: azure;
+    overflow: auto;
 }
 footer{
     height: 5vh;
     width: inherit;
-    background-color: beige;
+    background-color: #EDF2FA;
 }

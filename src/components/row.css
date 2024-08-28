@@ -1,3 +1,17 @@
 .row_container{
-    display: flex;
+    display: inline-flex;
+    vertical-align: top;/* to fix the unexplainable gap after rows */
+}
+
+.row-odd{
+    background-color: #fafafa;
+}
+
+.row-even{
+    background-color: #f7f7f7;
+}
+
+.row-sticky{
+    position: sticky;
+    top: 0;
 }

@@ -6,7 +6,7 @@ class Cell{
         this.column = column;
         this.isEditable = this.setIsEditableOnInit()
         this.value = this.setDefaultValueToCell();
-        this.style = { height : "100%", width : `${this.column.width}px`};
+        this.style = { height : "calc(100% - 6px)", width : (this.column.width -6)};// -6 to offset for padding and border
         this.formula = {};
         this.initCellStyle();
     }
@@ -22,14 +22,15 @@ class Cell{
     }
 
     setDefaultValueToCell(){
-        if(this.isHeaderCell) return this.column.columnName;
+        if(this.isHeaderCell) return this.column.name;
+        if(this.column.isSerialNumberColumn) return this.row.id;
         return null;
     }
 
     getDefaultStyle(){
         const centerAligned = { display :"flex", alignItems : "center", justifyContent : "center"};
         if(this.isHeaderCell) return centerAligned;
-        if(this.column.name === 'sNo') return centerAligned
+        if(this.column.isSerialNumberColumn) return centerAligned
     }
 
     initCellStyle(){
