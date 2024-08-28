@@ -1,0 +1,20 @@
+section{
+    height: 100vh;
+    width: 100vw;
+}
+header{
+    height: 10vh;
+    width: inherit;
+    background-color: antiquewhite;
+}
+main{
+    min-height: 85vh;
+    width: inherit;
+    overflow: auto;
+    background-color: azure;
+}
+footer{
+    height: 5vh;
+    width: inherit;
+    background-color: beige;
+}
