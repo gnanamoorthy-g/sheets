@@ -1,9 +1,8 @@
 import Grid from "./components/grid";
 import Header from "./components/header";
+import  "./spreadsheet.css";
 
-import  "./sheet.css";
-
-function Sheet(){
+function SpreadSheet(){
     return(
         <section>
             <header>
@@ -18,4 +17,4 @@ function Sheet(){
     )
 }
 
-export default Sheet;
+export default SpreadSheet;

@@ -1,14 +1,20 @@
 import CellNode from "./cell";
 import Cell from "../types/cell";
+import { SpreadsheetContext } from "../spreadsheetContext";
 import "./row.css";
+import { useContext } from "react";
 
 function RowNode({ row }){
-    const { id, columns = [], isHeaderRow } = row;
-    const cells = columns.map(col => new Cell(row,col));
+    const { document } = useContext(SpreadsheetContext);
+    const { activeSheet } = document;
+    const { cells } = activeSheet;
+
+    const { id } = row;
+    const rowCells = cells[id] || [];
     const rowStyle = { height : row.height, minHeight :row.height};
     const classNames = row.rowClasses.join(' ');
     return (
-        <div className={`row_container ${classNames}`} style={rowStyle}>{cells.map(cell => <CellNode key={cell.id} cell={cell}/>)}</div>
+        <div className={`row_container ${classNames}`} style={rowStyle}>{rowCells.map(cell => <CellNode key={cell.id} cell={cell}/>)}</div>
     )
 }
 
