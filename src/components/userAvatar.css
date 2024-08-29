@@ -1,0 +1,17 @@
+.user-avatar {
+    background-color: #004D40;
+    /* Example color, customize as needed */
+    color: #FFF;
+    border-radius: 50%;
+    width: 26px;
+    /* Adjust size as needed */
+    height: 26px;
+    /* Adjust size as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    /* Adjust font size as needed */
+    font-weight: bold;
+    cursor: pointer;
+}

@@ -4,7 +4,8 @@ class Cell{
         this.isHeaderCell = row.id === 0;
         this.row = row;
         this.column = column;
-        this.isEditable = this.setIsEditableOnInit()
+        this.isEditable = this.setIsEditableOnInit();
+        this.isFocused = false;
         this.value = this.setDefaultValueToCell();
         this.style = { height : "calc(100% - 6px)", width : (this.column.width -6)};// -6 to offset for padding and border
         this.formula = {};
@@ -18,7 +19,7 @@ class Cell{
     setIsEditableOnInit(){
         if(this.isHeaderCell) return false;
         if(this.column.name === 'sNo') return false;
-        return true
+        return (this.row.isEditable && this.column.isEditable);
     }
 
     setDefaultValueToCell(){

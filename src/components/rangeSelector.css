@@ -1,0 +1,23 @@
+.range-selector{
+    position: relative;
+    width: 120px;
+    max-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.range-selector::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%; /* Start from the middle */
+    height: 65%; /* Span half the height */
+    width: 1px; /* Border width */
+    background-color: #DADADA; /* Border color */
+    transform: translateY(-50%); /* Center the border vertically */
+}
+
+.range-selector:hover{
+    background-color: #e1e3e6;
+}

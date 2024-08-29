@@ -17,7 +17,7 @@ function Grid(){
     .map((col,idx) => ( new Row(idx,columns)));
 
     return(
-        <div id="container" className="root_container">{rows.map(row => <RowNode key={row.id} row={row}/>)}</div>
+        <div id="container" className="root_container" spellCheck={false}>{rows.map(row => <RowNode key={row.id} row={row}/>)}</div>
     )
 
 

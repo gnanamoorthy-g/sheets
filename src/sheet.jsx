@@ -1,11 +1,14 @@
 import Grid from "./components/grid";
+import Header from "./components/header";
 
 import  "./sheet.css";
 
 function Sheet(){
     return(
         <section>
-            <header></header>
+            <header>
+                <Header/>
+            </header>
             <main>
                 <Grid/>
             </main>

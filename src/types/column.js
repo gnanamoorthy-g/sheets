@@ -4,7 +4,8 @@ class Column{
         this.id = columnIndex;
         this.isSerialNumberColumn = columnIndex == "sNo";
         this.name = this.indexToExcelColumnName(columnIndex);
-        this.editable = true;
+        this.isEditable = this.getIsEditableOnInit();
+        this.isHighlighted = false;
         this.resizable = true;
         this.width = this.isSerialNumberColumn ? 50 : Column.initialWidth;
         this.styles = {};
@@ -12,6 +13,10 @@ class Column{
 
     onResize(event){
         this.width = 200;
+    }
+
+    getIsEditableOnInit(){
+        return !this.isSerialNumberColumn
     }
 
     applyStylesToColumn(styles){
