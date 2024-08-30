@@ -14,7 +14,7 @@ class WorkSheet {
         this.columns = this.getDefaultColumns();
         this.rows = this.getDefaultRows();
         this.cells = this.createCellsOnInit();
-        this.activeCell = null;
+        this.activeCell = this.setActiveCell(this.cells[1][1]);
         this.activeRange = null;
         this.worksheetIndex = sheetIndex;
         this.worksheetName = `Sheet ${sheetIndex+1}`;
@@ -50,6 +50,7 @@ class WorkSheet {
     setActiveCell(cell = null) {
         if (!cell) return;
         this.activeCell = cell;
+        return this.activeCell;
     }
 
     setWorksheetName(name){

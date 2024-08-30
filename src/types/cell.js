@@ -7,9 +7,36 @@ class Cell{
         this.isEditable = this.setIsEditableOnInit();
         this.isFocused = false;
         this.value = this.setDefaultValueToCell();
-        this.style = { height : "calc(100% - 6px)", width : (this.column.width -6)};// -6 to offset for padding and border
+        this.style = { height : "calc(100% - 6px)", width : (this.column.width -6)};// -6 to offset for padding and border;
+        this.styleAttributes = {
+            isBold :  false,
+            isItalic : false,
+            fontSize : 10,
+            font : 'Roboto',
+            isHorizontallyAligned : false,
+            isVerticallyAligned : false,
+            color : "#000000",
+            backgroundColor  : 'transparent',
+        };
         this.formula = {};
+        this.cellClasses = [];
+        this.address = this.column.name + this.row.id;
         this.initCellStyle();
+    }
+
+    addClass(className){
+        if(!className) return this.cellClasses;
+        if(!this.cellClasses.includes(className)){
+            this.cellClasses.push(className);
+        }
+        return this.cellClasses;
+    }
+
+    removeClass(className){
+        if(!className) return this.cellClasses;
+        if(!this.cellClasses.includes(className)) return this.cellClasses;
+        this.cellClasses = this.cellClasses.filter(cls => cls !== className);
+        return this.cellClasses
     }
 
     setIsEditable(isEditable = true){
@@ -38,6 +65,13 @@ class Cell{
         let currentStyle = this.style;
         let defaultStyle = this.getDefaultStyle();
         this.style = Object.assign({},currentStyle,defaultStyle);
+        if(this.isHeaderCell) this.cellClasses.push('headerCell');
+    }
+
+    setStyleAttribute(attr, value){
+        if(!attr || !value) return this.styleAttributes;
+        this.styleAttributes[attr] = value;
+        return this.styleAttributes;
     }
 }
 

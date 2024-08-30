@@ -7,13 +7,12 @@
     white-space: nowrap;
 }
 
-.cell_container:focus {
+.cell-active {
     outline: 2px solid #4285f4;
     outline-offset: -2px;
 }
 
 .cell_container:hover {
-    background-color: #f7f7f7;
     cursor: pointer;
 }
 
@@ -21,4 +20,8 @@
     position: sticky;
     left: 0;
     background-color: #f9f9f9;
+}
+
+.active-cell-xy-pointer{
+    background-color: #e3f2fd !important;
 }

@@ -50,3 +50,7 @@
     background-color: #DADADA; /* Border color */
     transform: translateY(-50%); /* Center the border vertically */
 }
+
+.btn_selected{
+    background-color: cadetblue;
+}

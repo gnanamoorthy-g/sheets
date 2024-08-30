@@ -5,9 +5,11 @@ import "./grid.css";
 
 
 function Grid(){
-    const { document } = useContext(SpreadsheetContext);
-    const { activeSheet } = document;
-    const { rows } = activeSheet;
+    const { 
+        document , 
+        document : { activeSheet }
+    } = useContext(SpreadsheetContext);
+    const rows = activeSheet.rows || [];
 
     return(
         <div id="container" className="root_container" spellCheck={false}>{rows.map(row => <RowNode key={row.id} row={row}/>)}</div>

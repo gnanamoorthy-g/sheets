@@ -16,10 +16,14 @@
     top: 0;
 }
 
-.row-header{
-    background-color: #f3e5f5; 
-}
-
 .row-focused{
     background-color: #e3f2fd; 
 }
+
+/* .row-header{
+    background-color: #f3e5f5; 
+}
+
+.row-header:hover{
+    background-color: #e8d2ef;
+} */
