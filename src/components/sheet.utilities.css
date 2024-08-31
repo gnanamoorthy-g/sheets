@@ -54,3 +54,7 @@
 .btn_selected{
     background-color: cadetblue;
 }
+
+.btn_selected:hover{
+    background-color:#4e8284
+}

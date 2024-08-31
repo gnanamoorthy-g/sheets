@@ -22,23 +22,29 @@ class Cell {
         this.dependents = [];
         this.valueFormatter = null;
         this.formattedValue = null;
+        this.errorMessage = '';
         this.cellClasses = [];
         this.address = this.column.name + this.row.id;
         this.initCellStyle();
     }
 
-    setFormula(formula, worksheet) {
-        if (formula === this.formula) return this.formula;
+
+    setErrorMessage(error){
+        this.errorMessage  = error;
+    }
+
+    setFormula(formula, worksheet, onRecalculate = false) {
+        if (formula === this.formula && !onRecalculate) return this.formula;
         if (!formula){
             this.setValue(null, worksheet);
+            this.setErrorMessage(null);
             this.removeClass("cell-error");
             return this.formula;
         }
+        this.removeDependencies(formula,worksheet);
         this.formula = formula;
         const isAnExpression = formula.length && formula.substring(0, 1) === "=";
-        let operands = isAnExpression
-            ? formula.substring(1).split(" ")
-            : formula.split(" ");
+        let operands = isAnExpression ? formula.substring(1).split(" ") : formula.split(" ");
         for (let i = 0; i < operands.length; i++) {
             if (operands[i].trim()) {
                 let { isValidAddress, match } = worksheet.checkIfAddressIsValid(operands[i]);
@@ -49,7 +55,8 @@ class Cell {
                         cell.addDependent(this);
                     } catch (err) {
                         console.log(err, "err");
-                        this.setValue("#ERR!", worksheet);
+                        this.setValue(null, worksheet);
+                        this.setErrorMessage("#ERR!");
                         this.addClass("cell-error");
                     }
                 }
@@ -59,14 +66,23 @@ class Cell {
         try{
             let evaluatedValue = isAnExpression ? eval(decodedFormula) : formula;
             this.setValue(evaluatedValue, worksheet);
+            this.setErrorMessage(null);
             this.removeClass("cell-error");
         }
         catch (err) {
             console.log(err, "err");
-            this.setValue("#ERR!", worksheet);
+            this.setValue(null, worksheet);
+            this.setErrorMessage("#ERR!");
             this.addClass("cell-error");
         }
         return this.formula;
+    }
+
+    setValueFormatter(formatter){
+        this.valueFormatter = formatter;
+        if(!formatter) this.formattedValue = null
+        else this.formattedValue = this.valueFormatter(this.value);
+        return this.valueFormatter
     }
 
     setValue(value, worksheet) {
@@ -75,7 +91,9 @@ class Cell {
         if (this.valueFormatter) {
             this.formattedValue = this.valueFormatter(value);
         }
-        this.reCalculateDependentValues(worksheet);
+        if(this.dependents && this.dependents.length){
+            this.reCalculateDependentValues(worksheet);
+        }
         return this.value;
     }
 
@@ -176,8 +194,9 @@ class Cell {
     }
 
     reCalculateDependentValues(worksheet) {
+        const onRecalculate = true;
         this.dependents.forEach((dependant) => {
-            dependant.setFormula(dependant.formula, worksheet);
+            dependant.setFormula(dependant.formula, worksheet,onRecalculate);
         });
     }
 }

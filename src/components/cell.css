@@ -37,6 +37,6 @@
     right: 0;
     width: 10px;
     height: 10px;
-    background-color: red;
+    background-color: #D93025;
     clip-path: polygon(100% 0, 0 0, 90% 100%, 100% 100%, 100% 90%);
 }
