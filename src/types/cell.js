@@ -1,5 +1,5 @@
-class Cell{
-    constructor(row, column){
+class Cell {
+    constructor(row, column) {
         this.id = `row_${row.id}::col_${column.id}`;
         this.isHeaderCell = row.id === 0;
         this.row = row;
@@ -7,18 +7,18 @@ class Cell{
         this.isEditable = this.setIsEditableOnInit();
         this.isFocused = false;
         this.value = this.setDefaultValueToCell();
-        this.style = { height : "calc(100% - 6px)", width : (this.column.width -6)};// -6 to offset for padding and border;
+        this.style = { height: "calc(100% - 6px)", width: this.column.width - 6 }; // -6 to offset for padding and border;
         this.styleAttributes = {
-            isBold :  false,
-            isItalic : false,
-            fontSize : 12,
-            font : 'Roboto',
-            isHorizontallyAligned : false,
-            isVerticallyAligned : false,
-            color : "#000000",
-            backgroundColor  : 'transparent',
+            isBold: false,
+            isItalic: false,
+            fontSize: 12,
+            font: "Roboto",
+            isHorizontallyAligned: false,
+            isVerticallyAligned: false,
+            color: "#000000",
+            backgroundColor: "transparent",
         };
-        this.formula = '';
+        this.formula = "";
         this.dependents = [];
         this.valueFormatter = null;
         this.formattedValue = null;
@@ -27,103 +27,157 @@ class Cell{
         this.initCellStyle();
     }
 
-    setFormula(formula, worksheet){
-        if(!formula) return this.formula;
+    setFormula(formula, worksheet) {
+        if (formula === this.formula) return this.formula;
+        if (!formula){
+            this.setValue(null, worksheet);
+            this.removeClass("cell-error");
+            return this.formula;
+        }
         this.formula = formula;
-        const isAnExpression = formula.length && (formula.substring(0,1) === '=');
-        let operands = isAnExpression ? formula.substring(1).split(" ") : formula.split(" "); 
-        for(let i=0; i< operands.length; i++){
-            if(operands[i].trim()){
+        const isAnExpression = formula.length && formula.substring(0, 1) === "=";
+        let operands = isAnExpression
+            ? formula.substring(1).split(" ")
+            : formula.split(" ");
+        for (let i = 0; i < operands.length; i++) {
+            if (operands[i].trim()) {
                 let { isValidAddress, match } = worksheet.checkIfAddressIsValid(operands[i]);
-                if(isValidAddress){
-                    try{
-                        let cell =  worksheet.getCellByAddress(operands[i]);
+                if (isValidAddress) {
+                    try {
+                        let cell = worksheet.getCellByAddress(operands[i]);
                         operands[i] = cell.value;
-                        cell.addDependents(this);
-                     }
-                     catch(err){
-                        console.log(err,"err");
-                        this.setValue(null,worksheet)
-                     }
+                        cell.addDependent(this);
+                    } catch (err) {
+                        console.log(err, "err");
+                        this.setValue("#ERR!", worksheet);
+                        this.addClass("cell-error");
+                    }
                 }
             }
         }
         let decodedFormula = operands.join(" ");
-        console.log(decodedFormula,"decodedFormula");
-        let evaluatedValue = isAnExpression ? eval(decodedFormula) : formula;
-        this.setValue(evaluatedValue,worksheet);
+        try{
+            let evaluatedValue = isAnExpression ? eval(decodedFormula) : formula;
+            this.setValue(evaluatedValue, worksheet);
+            this.removeClass("cell-error");
+        }
+        catch (err) {
+            console.log(err, "err");
+            this.setValue("#ERR!", worksheet);
+            this.addClass("cell-error");
+        }
+        return this.formula;
     }
 
-    setValue(value, worksheet){
-        if(!value) return this.value;
+    setValue(value, worksheet) {
+        if (!value) return this.value;
         this.value = value;
-        if(this.valueFormatter){
+        if (this.valueFormatter) {
             this.formattedValue = this.valueFormatter(value);
         }
         this.reCalculateDependentValues(worksheet);
         return this.value;
     }
 
-    addClass(className){
-        if(!className) return this.cellClasses;
-        if(!this.cellClasses.includes(className)){
+    addClass(className) {
+        if (!className) return this.cellClasses;
+        if (!this.cellClasses.includes(className)) {
             this.cellClasses.push(className);
         }
         return this.cellClasses;
     }
 
-    removeClass(className){
-        if(!className) return this.cellClasses;
-        if(!this.cellClasses.includes(className)) return this.cellClasses;
-        this.cellClasses = this.cellClasses.filter(cls => cls !== className);
-        return this.cellClasses
+    removeClass(className) {
+        if (!className) return this.cellClasses;
+        if (!this.cellClasses.includes(className)) return this.cellClasses;
+        this.cellClasses = this.cellClasses.filter((cls) => cls !== className);
+        return this.cellClasses;
     }
 
-    setIsEditable(isEditable = true){
+    setIsEditable(isEditable = true) {
         this.isEditable = isEditable;
     }
 
-    setIsEditableOnInit(){
-        if(this.isHeaderCell) return false;
-        if(this.column.name === 'sNo') return false;
-        return (this.row.isEditable && this.column.isEditable);
+    setIsEditableOnInit() {
+        if (this.isHeaderCell) return false;
+        if (this.column.name === "sNo") return false;
+        return this.row.isEditable && this.column.isEditable;
     }
 
-    setDefaultValueToCell(){
-        if(this.isHeaderCell) return this.column.name;
-        if(this.column.isSerialNumberColumn) return this.row.id;
+    setDefaultValueToCell() {
+        if (this.isHeaderCell) return this.column.name;
+        if (this.column.isSerialNumberColumn) return this.row.id;
         return null;
     }
 
-    getDefaultStyle(){
-        const centerAligned = { display :"flex", alignItems : "center", justifyContent : "center"};
-        if(this.isHeaderCell) return centerAligned;
-        if(this.column.isSerialNumberColumn) return centerAligned
+    getDefaultStyle() {
+        const centerAligned = {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+        };
+        if (this.isHeaderCell) return centerAligned;
+        if (this.column.isSerialNumberColumn) return centerAligned;
     }
 
-    initCellStyle(){
+    initCellStyle() {
         let currentStyle = this.style;
         let defaultStyle = this.getDefaultStyle();
-        this.style = Object.assign({},currentStyle,defaultStyle);
-        if(this.isHeaderCell) this.cellClasses.push('headerCell');
+        this.style = Object.assign({}, currentStyle, defaultStyle);
+        if (this.isHeaderCell) this.cellClasses.push("headerCell");
     }
 
-    setStyleAttribute(attr, value){
-        if(!attr || !value) return this.styleAttributes;
+    setStyleAttribute(attr, value) {
+        if (!attr || !value) return this.styleAttributes;
         this.styleAttributes[attr] = value;
         return this.styleAttributes;
     }
 
-    addDependents(dependent){
-        if(!dependent) return this.dependents;
-        if(!Array.isArray(this.dependents)) this.dependents = [];
+    removeDependencies(formula, worksheet) {
+        const isAnExpression = formula.length && formula.substring(0, 1) === "=";
+        if (!isAnExpression) return -1;
+        let operands = formula.substring(1).split(" ");
+        for (let i = 0; i < operands.length; i++) {
+            if (operands[i].trim()) {
+                let { isValidAddress, match } = worksheet.checkIfAddressIsValid(
+                    operands[i]
+                );
+                if (isValidAddress) {
+                    try {
+                        let cell = worksheet.getCellByAddress(operands[i]);
+                        cell.removeDependent(this);
+                    } catch (err) {
+                        console.log(err, "err");
+                    }
+                }
+            }
+        }
+        return 1;
+    }
+
+    removeDependent(dependent) {
+        if (!dependent) return this.dependents;
+        let dependantIndex = this.dependents.findIndex(
+            (i) => i.id === dependent.id
+        );
+        if (dependantIndex < 0) return this.dependents;
+        this.dependents.splice(dependantIndex, 1);
+    }
+
+    addDependent(dependent) {
+        if (!dependent) return this.dependents;
+        if (!Array.isArray(this.dependents)) this.dependents = [];
+        let dependantIndex = this.dependents.findIndex(
+            (i) => i.id === dependent.id
+        );
+        if (dependantIndex >= 0) return this.dependents;
         this.dependents.push(dependent);
         return this.dependents;
     }
 
-    reCalculateDependentValues(worksheet){
+    reCalculateDependentValues(worksheet) {
         this.dependents.forEach((dependant) => {
-            dependant.setFormula(dependant.formula,worksheet);
+            dependant.setFormula(dependant.formula, worksheet);
         });
     }
 }

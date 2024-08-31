@@ -25,3 +25,18 @@
 .active-cell-xy-pointer{
     background-color: #e3f2fd !important;
 }
+
+.cell-error{
+    position: relative;
+}
+
+.cell-error::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    clip-path: polygon(100% 0, 0 0, 90% 100%, 100% 100%, 100% 90%);
+}
