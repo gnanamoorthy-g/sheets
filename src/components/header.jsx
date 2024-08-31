@@ -2,7 +2,7 @@ import MenuItem from "./menuItem";
 import Avatar from "./userAvatar";
 import RangeSelector from "./rangeSelector";
 import SheetUtilities from "./sheet.utilities";
-import fxIcon from "/formula.png";
+import FormulaEditor from "./formula.input";
 import "./header.css";
 
 import BannerIcon from "/sheets.svg";
@@ -39,11 +39,7 @@ function Header() {
             <div className="sheet_utilities_container"><SheetUtilities /></div>
             <div className="range_container">
                 <RangeSelector/>
-                <div className="sheet-functions">
-                    <div className="fx_icon"><img src={fxIcon}/></div>
-                    <div className="fx_input"></div>
-                </div>
-
+                <FormulaEditor />
             </div>
         </div>
     );

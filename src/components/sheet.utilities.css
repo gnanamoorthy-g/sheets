@@ -11,7 +11,7 @@
 }
 
 .utility_btn{
-    height: 18px;
+    height: 20px;
     min-width: 18px;
     width: auto;
     display: flex;
@@ -35,8 +35,8 @@
 .utilities_section{
     position: relative;
     display: flex;
+    align-items: center;
     padding: 5px 10px;
-    margin: 0px 10px;
 }
 
 

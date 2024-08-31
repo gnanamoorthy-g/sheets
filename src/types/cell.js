@@ -11,7 +11,7 @@ class Cell{
         this.styleAttributes = {
             isBold :  false,
             isItalic : false,
-            fontSize : 10,
+            fontSize : 12,
             font : 'Roboto',
             isHorizontallyAligned : false,
             isVerticallyAligned : false,
@@ -19,9 +19,20 @@ class Cell{
             backgroundColor  : 'transparent',
         };
         this.formula = {};
+        this.valueFormatter = null;
+        this.formattedValue = null;
         this.cellClasses = [];
         this.address = this.column.name + this.row.id;
         this.initCellStyle();
+    }
+
+    setValue(value){
+        if(!value) return this.value;
+        this.value = value;
+        if(this.valueFormatter){
+            this.formattedValue = this.valueFormatter(value);
+        }
+        return this.value;
     }
 
     addClass(className){

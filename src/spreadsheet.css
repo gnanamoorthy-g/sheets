@@ -3,7 +3,7 @@ section{
     width: 100vw;
 }
 header{
-    height: 10vh;
+    height: 12vh;
     width: inherit;
 }
 main{
@@ -14,7 +14,7 @@ main{
     overflow: auto;
 }
 footer{
-    height: 5vh;
+    height: 3vh;
     width: inherit;
     background-color: #EDF2FA;
 }
