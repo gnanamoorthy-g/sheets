@@ -31,7 +31,15 @@ function CellNode({ cell }) {
 
     const onBlur = (e) =>{
         let { textContent } = e.target;
-        cell.setValue(textContent);
+        cell.setValue(textContent,activeSheet);
+    }
+
+    const onKeyDown = (e) => {
+        if (e.key === 'Enter' || e.keyCode === 13){
+            let { textContent } = e.target;
+            cell.setValue(textContent,activeSheet);
+            setContext({ ...document });
+        }
     }
 
     function setCellClasses(isActive, cellClasses = []){
@@ -70,6 +78,8 @@ function CellNode({ cell }) {
             style={cellStyles}
             onFocus={onFocus}
             onBlur={onBlur}
+            onKeyDown={onKeyDown}
+            suppressContentEditableWarning={true}
         >
             {formattedValue || value}
         </div>

@@ -57,5 +57,33 @@ class WorkSheet {
         if(!name) return;
         this.worksheetName = name;
     }
+
+    excelColumnToIndex(columnName) {
+        let index = 0;
+        for (let i = 0; i < columnName.length; i++) {
+            const charCode = columnName.charCodeAt(i) - 64; // 'A' is 65 in ASCII, so subtract 64
+            index = index * 26 + charCode;
+        }
+        return index;
+    }
+
+    checkIfAddressIsValid(address = ''){
+        let addressTestRegex =  new RegExp(/^[A-Z]+[0-9]+$/);
+        let addressSplitRegex =  new RegExp(/^([A-Z]+)(\d+)$/);
+        let isValidAddress = addressTestRegex.test(address);
+        const match = address.match(addressSplitRegex);
+        return { isValidAddress, match };
+    }
+
+    getCellByAddress(address = ''){
+        let { isValidAddress, match } = this.checkIfAddressIsValid(address);
+        if(!isValidAddress) throw new Error("Invalid cell address :: "+address);
+        const columnIdx = this.excelColumnToIndex(match[1]);
+        const rowIdx = match[2];
+        const cell = this.cells[rowIdx][columnIdx];
+        if(!cell) throw new Error("Cell Not found :: "+address +"; check if cell is within range");
+        return cell;
+
+    }
 }
 export default WorkSheet;

@@ -18,7 +18,8 @@ class Cell{
             color : "#000000",
             backgroundColor  : 'transparent',
         };
-        this.formula = {};
+        this.formula = '';
+        this.dependents = [];
         this.valueFormatter = null;
         this.formattedValue = null;
         this.cellClasses = [];
@@ -26,12 +27,40 @@ class Cell{
         this.initCellStyle();
     }
 
-    setValue(value){
+    setFormula(formula, worksheet){
+        if(!formula) return this.formula;
+        this.formula = formula;
+        const isAnExpression = formula.length && (formula.substring(0,1) === '=');
+        let operands = isAnExpression ? formula.substring(1).split(" ") : formula.split(" "); 
+        for(let i=0; i< operands.length; i++){
+            if(operands[i].trim()){
+                let { isValidAddress, match } = worksheet.checkIfAddressIsValid(operands[i]);
+                if(isValidAddress){
+                    try{
+                        let cell =  worksheet.getCellByAddress(operands[i]);
+                        operands[i] = cell.value;
+                        cell.addDependents(this);
+                     }
+                     catch(err){
+                        console.log(err,"err");
+                        this.setValue(null,worksheet)
+                     }
+                }
+            }
+        }
+        let decodedFormula = operands.join(" ");
+        console.log(decodedFormula,"decodedFormula");
+        let evaluatedValue = isAnExpression ? eval(decodedFormula) : formula;
+        this.setValue(evaluatedValue,worksheet);
+    }
+
+    setValue(value, worksheet){
         if(!value) return this.value;
         this.value = value;
         if(this.valueFormatter){
             this.formattedValue = this.valueFormatter(value);
         }
+        this.reCalculateDependentValues(worksheet);
         return this.value;
     }
 
@@ -83,6 +112,19 @@ class Cell{
         if(!attr || !value) return this.styleAttributes;
         this.styleAttributes[attr] = value;
         return this.styleAttributes;
+    }
+
+    addDependents(dependent){
+        if(!dependent) return this.dependents;
+        if(!Array.isArray(this.dependents)) this.dependents = [];
+        this.dependents.push(dependent);
+        return this.dependents;
+    }
+
+    reCalculateDependentValues(worksheet){
+        this.dependents.forEach((dependant) => {
+            dependant.setFormula(dependant.formula,worksheet);
+        });
     }
 }
 

@@ -26,10 +26,10 @@ function SheetUtilities() {
     return (
         <div className="utilities_panel">
             <div className="utilities_section">
-                <button id="currency" className="utility_btn"><span class="material-symbols-outlined">
+                <button id="currency" className="utility_btn"><span className="material-symbols-outlined">
                     attach_money
                 </span></button>
-                <button id="percentage" className="utility_btn"><span class="material-symbols-outlined">
+                <button id="percentage" className="utility_btn"><span className="material-symbols-outlined">
                     percent
                 </span></button>
             </div>
