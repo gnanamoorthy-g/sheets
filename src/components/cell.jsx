@@ -7,7 +7,7 @@ function CellNode({ cell }) {
 
     const {
         document,
-        setContext,
+        updateDocument,
         document: { activeSheet },
     } = useContext(SpreadsheetContext);
 
@@ -22,7 +22,7 @@ function CellNode({ cell }) {
 
     const onFocus = (e) => {
         activeSheet.setActiveCell(cell);
-        setContext({ ...document });
+        updateDocument(document);
     }
 
     const onBlur = (e) =>{
@@ -34,7 +34,7 @@ function CellNode({ cell }) {
         if (e.key === 'Enter' || e.keyCode === 13){
             let { textContent } = e.target;
             cell.setValue(textContent,activeSheet);
-            setContext({ ...document });
+            updateDocument(document);
         }
     }
 

@@ -5,9 +5,17 @@ import SpreadSheet from "./spreadsheet";
 
 function App() {
   const [document,setDocument] = useState(new Spreadsheet());
+
+  const updateDocumentInstance = (document) => {
+    setDocument((prev) => {
+      const newDocument = Object.create(Object.getPrototypeOf(prev));
+      Object.assign(newDocument, prev, document);
+      return newDocument;
+    });
+  }
   
-  const setContext = useCallback(setDocument,[]);
-  const contextValue = useMemo(() => ({ document, setContext}),[document,setContext]);
+  const updateDocument = useCallback(updateDocumentInstance,[]);
+  const contextValue = useMemo(() => ({ document, updateDocument}),[document,updateDocument]);
 
   return (
     <SpreadsheetContext.Provider value={contextValue} >

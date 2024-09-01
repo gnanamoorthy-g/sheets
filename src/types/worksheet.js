@@ -8,9 +8,10 @@ class WorkSheet {
     static PREFIX = 'sheet';
     static generateSheetId() {
         let docID = crypto.randomUUID().replace("-", "").substring(0, 12);
-        return Spreadsheet.PREFIX + docID;
+        return WorkSheet.PREFIX + docID;
     }
     constructor(sheetIndex) {
+        this.id = WorkSheet.generateSheetId();
         this.columns = this.getDefaultColumns();
         this.rows = this.getDefaultRows();
         this.cells = this.createCellsOnInit();
@@ -18,6 +19,7 @@ class WorkSheet {
         this.activeRange = null;
         this.worksheetIndex = sheetIndex;
         this.worksheetName = `Sheet ${sheetIndex+1}`;
+        this.isActive = false;
     }
 
     getDefaultColumns() {
@@ -83,7 +85,12 @@ class WorkSheet {
         const cell = this.cells[rowIdx][columnIdx];
         if(!cell) throw new Error("Cell Not found :: "+address +"; check if cell is within range");
         return cell;
+    }
 
+    setActiveStatus(status){
+        if(!status) return this.isActive;
+        this.isActive = status;
+        return this.isActive;
     }
 }
 export default WorkSheet;

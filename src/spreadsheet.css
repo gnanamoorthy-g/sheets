@@ -7,14 +7,14 @@ header{
     width: inherit;
 }
 main{
-    height: 85vh;
+    height: 84vh;
     max-height: 85vh;
     width: auto;
     background-color: azure;
     overflow: auto;
 }
 footer{
-    height: 3vh;
+    height: 4vh;
     width: inherit;
     background-color: #EDF2FA;
 }

@@ -5,7 +5,7 @@ import "./sheet.utilities.css";
 function SheetUtilities() {
     const {
         document,
-        setContext,
+        updateDocument,
         document: { activeSheet },
     } = useContext(SpreadsheetContext);
 
@@ -20,7 +20,7 @@ function SheetUtilities() {
     const onBtnClick = (e) => {
         let { name, value } = e.currentTarget;
         cellStyleAttributes[name] = !cellStyleAttributes[name];
-        setContext({ ...document });
+        updateDocument(document);
     }
 
     return (

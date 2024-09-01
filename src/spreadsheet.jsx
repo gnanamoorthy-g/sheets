@@ -1,5 +1,6 @@
 import Grid from "./components/grid";
 import Header from "./components/header";
+import SheetsManager from "./components/sheets.manager";
 import  "./spreadsheet.css";
 
 function SpreadSheet(){
@@ -11,7 +12,7 @@ function SpreadSheet(){
             <main>
                 <Grid/>
             </main>
-            <footer></footer>
+            <footer><SheetsManager/></footer>
         </section>
 
     )

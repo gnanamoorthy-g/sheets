@@ -17,8 +17,20 @@ class Spreadsheet{
     add_a_worksheet(){
         let newWorksheet = new WorkSheet(this.numOfWorksheets);
         this.worksheets.push(newWorksheet);
-        this.activeSheet = newWorksheet;
         this.numOfWorksheets++;
+        if(this.worksheets.length === 1){
+            this.setActiveSheet(newWorksheet);
+        };
+        return newWorksheet;
+    }
+
+    setActiveSheet(sheet){
+        if(!sheet) return null;
+        this.activeSheet = sheet;
+        sheet.setActiveStatus(true);
+        this.worksheets.forEach(worksheet => {
+            if(sheet.id !== worksheet.id) worksheet.setActiveStatus(false);
+        })
     }
 }
 

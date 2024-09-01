@@ -1,0 +1,41 @@
+.sheet_tab {
+    flex: 0 0 auto;
+    padding: 6px 12px;
+    margin-right: 4px;
+    background-color: #e8eaed;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px 4px 0 0;
+    color: #5f6368;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sheet_tab:hover {
+    background-color: #dadce0;
+}
+
+/* Active tab */
+.sheet_tab-active {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+    color: #202124;
+    font-weight: 500;
+}
+
+.add-sheet-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e8eaed;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-left: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.add-sheet-btn:hover {
+    background-color: #dadce0;
+    border-color: #c6c6c6;
+}
