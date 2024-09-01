@@ -17,11 +17,21 @@
 .fx_input{
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 80%;
     margin: 0px 5px;
     border: none;
 }
 
 .fx_input:focus {
     outline: none;
+}
+
+.toast_container{
+    width: 20%;
+    height: 100%;
+}
+
+.toast_container > div{
+    height: 100%;
+    width: 100%;
 }
