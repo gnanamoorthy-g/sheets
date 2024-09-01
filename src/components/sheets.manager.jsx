@@ -5,20 +5,19 @@ import "./sheets.manager.css";
 
 function SheetsManager() {
     const {
-        document,
+        documentObj,
         updateDocument,
     } = useContext(SpreadsheetContext);
 
     const addNewSheet = () => {
-        console.log(document,"document")
-        document.add_a_worksheet();
-        updateDocument(document);
+        documentObj.add_a_worksheet();
+        updateDocument(documentObj);
     }
 
     const renderSheetTabs = () => {
         return (
             <div className="sheet_tabs_container">
-                {document.worksheets.map(sheet => <SheetTab key={sheet.id} sheet={sheet} />)}
+                {documentObj.worksheets.map(sheet => <SheetTab key={sheet.id} sheet={sheet} />)}
             </div>
         )
     }

@@ -40,3 +40,14 @@
     background-color: #D93025;
     clip-path: polygon(100% 0, 0 0, 90% 100%, 100% 100%, 100% 90%);
 }
+
+@keyframes blink {
+    50% {
+        opacity: 0.5;
+        background-color: #4285f4;
+    }
+}
+
+.cell-blink {
+    animation: blink 0.5s steps(1) 3;
+}

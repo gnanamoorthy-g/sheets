@@ -4,9 +4,9 @@ import "./sheet.utilities.css";
 
 function SheetUtilities() {
     const {
-        document,
+        documentObj,
         updateDocument,
-        document: { activeSheet },
+        documentObj: { activeSheet },
     } = useContext(SpreadsheetContext);
 
     const activeCell = activeSheet.activeCell;
@@ -20,7 +20,7 @@ function SheetUtilities() {
     const onBtnClick = (e) => {
         let { name, value } = e.currentTarget;
         cellStyleAttributes[name] = !cellStyleAttributes[name];
-        updateDocument(document);
+        updateDocument(documentObj);
     }
 
     return (

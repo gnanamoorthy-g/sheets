@@ -5,8 +5,8 @@ import "./row.css";
 import { useContext } from "react";
 
 function RowNode({ row }){
-    const { document } = useContext(SpreadsheetContext);
-    const { activeSheet } = document;
+    const { documentObj } = useContext(SpreadsheetContext);
+    const { activeSheet } = documentObj;
     const { cells } = activeSheet;
 
     const { id } = row;

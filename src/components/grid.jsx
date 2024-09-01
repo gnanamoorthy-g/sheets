@@ -6,8 +6,8 @@ import "./grid.css";
 
 function Grid(){
     const { 
-        document , 
-        document : { activeSheet }
+        documentObj , 
+        documentObj : { activeSheet }
     } = useContext(SpreadsheetContext);
     const rows = activeSheet.rows || [];
 

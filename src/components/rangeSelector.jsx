@@ -3,8 +3,8 @@ import { SpreadsheetContext } from "../spreadsheetContext";
 import "./rangeSelector.css";
 
 function RangeSelector(){
-    const { document } = useContext(SpreadsheetContext);
-    const { activeSheet } = document;
+    const { documentObj } = useContext(SpreadsheetContext);
+    const { activeSheet } = documentObj;
 
     return(
         <div className="range-selector">{activeSheet?.activeCell?.address || ''}</div>

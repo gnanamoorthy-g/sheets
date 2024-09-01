@@ -3,12 +3,12 @@ import { SpreadsheetContext } from "../spreadsheetContext";
 import "./cell.css";
 
 function CellNode({ cell }) {
-    const { value, formattedValue, errorMessage , isEditable, style , styleAttributes } = cell;
+    const { id , value, formattedValue, errorMessage , isEditable, style , styleAttributes } = cell;
 
     const {
-        document,
+        documentObj,
         updateDocument,
-        document: { activeSheet },
+        documentObj: { activeSheet },
     } = useContext(SpreadsheetContext);
 
     const isActive = cell.id === activeSheet.activeCell?.id;
@@ -22,7 +22,7 @@ function CellNode({ cell }) {
 
     const onFocus = (e) => {
         activeSheet.setActiveCell(cell);
-        updateDocument(document);
+        updateDocument(documentObj);
     }
 
     const onBlur = (e) =>{
@@ -34,7 +34,7 @@ function CellNode({ cell }) {
         if (e.key === 'Enter' || e.keyCode === 13){
             let { textContent } = e.target;
             cell.setValue(textContent,activeSheet);
-            updateDocument(document);
+            updateDocument(documentObj);
         }
     }
 
@@ -51,6 +51,7 @@ function CellNode({ cell }) {
 
     return (
         <div
+            id={id}
             className={`cell_container ${classNames}`}
             contentEditable={isEditable}
             tabIndex={0}

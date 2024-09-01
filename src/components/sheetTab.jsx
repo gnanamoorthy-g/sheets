@@ -4,16 +4,16 @@ import "./sheetTab.css";
 
 function SheetTab({ sheet }){ 
     const {
-        document,
+        documentObj,
         updateDocument,
-        document: { activeSheet },
+        documentObj: { activeSheet },
     } = useContext(SpreadsheetContext);
 
     const isActive = sheet?.isActive;
 
     const onClick = () => {
-        document.setActiveSheet(sheet);
-        updateDocument(document);
+        documentObj.setActiveSheet(sheet);
+        updateDocument(documentObj);
     }
 
     return (

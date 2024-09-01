@@ -18,16 +18,15 @@ const toastStyle = {
 
 function FormulaEditor() {
     const {
-        document,
+        documentObj,
         updateDocument,
-        document: { activeSheet },
+        documentObj: { activeSheet },
     } = useContext(SpreadsheetContext);
     const { activeCell = {} } = activeSheet;
 
     const inputRef = useRef(null);
 
     const toastError = (toastMessage) => {
-        console.log("toast called",toastMessage);
         toast.error(toastMessage?.toString(), toastStyle);
     }
 
@@ -35,7 +34,7 @@ function FormulaEditor() {
         let inputValue = e.target.value;
         try {
             activeCell.setValue(inputValue, activeSheet);
-            updateDocument(document);
+            updateDocument(documentObj);
         }
         catch (err) { toastError(err)};
     }, 500);
@@ -45,7 +44,7 @@ function FormulaEditor() {
         let inputValue = e.target.value;
         try {
             activeCell.setFormula(inputValue, activeSheet);
-            updateDocument(document);
+            updateDocument(documentObj);
         }
         catch (err) { toastError(err)};
     }
@@ -55,7 +54,7 @@ function FormulaEditor() {
             let inputValue = e.target.value;
             try {
                 activeCell.setFormula(inputValue, activeSheet);
-                updateDocument(document);
+                updateDocument(documentObj);
             } 
             catch (err) { toastError(err)};
         }
